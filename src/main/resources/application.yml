@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:mysql://119.27.167.18:3306/user-center?useUnicode=true&characterEncoding=UTF8&autoReconnect=true
+    username: root
+    password: xinerzi
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      maxLifetime: 600000
+      maximum-pool-size: 1
+      minimum-idle: 1
+      connection-timeout: 30000
+  redis:
+    host: 192.168.3.10
+    port: 6379
+    database: 7
+  thymeleaf:
+    cache:  false
+    mode: LEGACYHTML5
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mapper/*.xml
+com:
+  daqsoft:
+    captcha:
+      random-code: 1234567890QWERTYUPASDFGHJKZXCVBNM
+      code-count: 4
+      world-space: 30
+      font-size: 40
+      height: 55
+      back-ground-color:
+        a: 0
+        b: 120
+        g: 120
+        r: 120
+      #code-unicode-scope: 30000-40000
