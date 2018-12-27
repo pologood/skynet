@@ -10,7 +10,7 @@ spring:
       minimum-idle: 1
       connection-timeout: 30000
   redis:
-    host: 192.168.3.10
+    host: 119.27.167.18
     port: 6379
     database: 7
   thymeleaf:
