@@ -8,6 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>user-center</module>
+        <module>data-platform</module>
     </modules>
     <name>skynet</name>
     <description>Demo project for Spring Boot</description>
