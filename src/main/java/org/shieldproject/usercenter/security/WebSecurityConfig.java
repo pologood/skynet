@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**", "/captcha/**", "/user/login", "/css/**", "/images/**", "/js/**", "/laydate/**", "/layer/**").permitAll()
+                .antMatchers("/oauth/**", "/captcha/**", "/user/login", "/css/**", "/images/**", "/js/**", "/laydate/**", "/layer/**", "/token/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
