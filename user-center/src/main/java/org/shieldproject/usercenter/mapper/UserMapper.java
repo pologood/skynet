@@ -12,7 +12,7 @@ import java.util.Set;
 public interface UserMapper {
     User getUserByUserName(@Param("username") String username);
 
-    Set<Role> findRoleByUserId(@Param("id")Integer id);
+    Set<Role> findRoleByUserId(@Param("id") Integer id);
 
     List<User> getUsers(@Param("offset") Integer offset, @Param("limit") Integer limit);
 
@@ -25,9 +25,9 @@ public interface UserMapper {
     Integer modifyUserById(@Param("id") Integer id, @Param("name") String name, @Param("email") String email);
 
 
-    Integer remove(@Param("id")Integer id);
+    Integer remove(@Param("id") Integer id);
 
-    User getUserById(@Param("id")Integer id);
+    User getUserById(@Param("id") Integer id);
 
-    Integer unbindRoles(@Param("uid") Integer uid, @Param("rid")Integer rid);
+    Integer unbindRoles(@Param("uid") Integer uid, @Param("rid") Integer rid);
 }
