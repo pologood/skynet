@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>data-platform</artifactId>
+    <artifactId>crawler-platform</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>crawler-schedule</module>

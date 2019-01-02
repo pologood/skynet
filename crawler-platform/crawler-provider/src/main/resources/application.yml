@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      database: mall
+      host: 119.27.167.18
+      port: 8879
+      username: mall
+      password: shieldproject
