@@ -10,6 +10,7 @@
         <module>user-center</module>
         <module>crawler-platform</module>
         <module>skynet-web</module>
+        <module>skynet-register</module>
     </modules>
     <name>skynet</name>
     <description>Demo project for Spring Boot</description>
