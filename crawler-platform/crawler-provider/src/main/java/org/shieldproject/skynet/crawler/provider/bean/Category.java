@@ -9,9 +9,8 @@ import java.io.Serializable;
 public class Category implements Serializable {
     @Id
     private String id;
-    private String mallId;
+    private String pid;
     private String name;
     private String code;
-    private String url;
-    private Long loop;
+    private String fullCode;
 }

@@ -6,3 +6,8 @@ spring:
       port: 8879
       username: mall
       password: shieldproject
+  redis:
+    host: 119.27.167.18
+    port: 8789
+    database: 8
+    password: xinerzi

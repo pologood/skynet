@@ -1,7 +1,10 @@
 package org.shieldproject.skynet.crawler.provider.api;
 
 import org.shieldproject.skynet.crawler.provider.bean.Category;
+import org.shieldproject.skynet.crawler.provider.bean.Mall;
+import org.shieldproject.skynet.crawler.provider.bean.MallCategory;
 import org.shieldproject.skynet.crawler.provider.repository.CategoryRepository;
+import org.shoper.commons.core.MD5Util;
 import org.shoper.commons.responseentity.BaseResponse;
 import org.shoper.commons.responseentity.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,24 @@ public class CrawlerApi {
 
     @PostMapping("/category")
     public BaseResponse insertCategory(@RequestBody Category category) {
-        category.setId(UUID.randomUUID().toString());
+        category.setId(MD5Util.getMD5Code(category.getCode()));
         categoryRepository.saveCategory(category);
         return ResponseBuilder.custom().data(category).build();
+    }
+
+    @PostMapping("/mall")
+    public BaseResponse insertMall(@RequestBody Mall mall) {
+        mall.setId(MD5Util.getMD5Code(mall.getCode()));
+        categoryRepository.saveMall(mall);
+        return ResponseBuilder.custom().data(mall).build();
+    }
+
+    @PostMapping("/mallCategory")
+    public BaseResponse insertMallCategory(@RequestBody MallCategory mallCategory) {
+        mallCategory.setId(UUID.randomUUID().toString());
+        mallCategory.setCreateTime(System.currentTimeMillis());
+        categoryRepository.saveMallCategory(mallCategory);
+        return ResponseBuilder.custom().data(mallCategory).build();
     }
 
     @GetMapping("/category/{id}")
