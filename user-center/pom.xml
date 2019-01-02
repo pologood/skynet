@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.shoper.commons</groupId>
             <artifactId>commons-starter-captcha</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.shoper.commons</groupId>
             <artifactId>commons-response-entity</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
