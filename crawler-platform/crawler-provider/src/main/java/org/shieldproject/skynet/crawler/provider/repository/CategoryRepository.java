@@ -28,4 +28,6 @@ public class CategoryRepository {
     public void saveMallCategory(MallCategory mallCategory) {
         mongoTemplate.save(mallCategory);
     }
+
+
 }

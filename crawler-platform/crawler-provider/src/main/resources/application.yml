@@ -1,13 +1,17 @@
 spring:
-  data:
-    mongodb:
-      database: mall
-      host: 119.27.167.18
-      port: 8879
-      username: mall
-      password: shieldproject
   redis:
-    host: 119.27.167.18
-    port: 8789
-    database: 8
+    #host: 119.27.167.18
+    #port: 8789
+    database: 9
+    host: 192.168.3.10
+    #password: xinerzi
+  datasource:
+    url: jdbc:mysql://119.27.167.18:3306/skynet?useUnicode=true&characterEncoding=UTF8&autoReconnect=true
+    username: root
     password: xinerzi
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      maxLifetime: 600000
+      maximum-pool-size: 1
+      minimum-idle: 1
+      connection-timeout: 30000
