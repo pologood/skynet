@@ -6,11 +6,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.shieldproject.skynet.crawler.provider.bean.Item;
-import org.shoper.commons.core.MD5Util;
 import org.shoper.commons.http.HttpClient;
 import org.shoper.commons.http.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +18,6 @@ import javax.script.ScriptEngineManager;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -34,8 +31,8 @@ public class CrawlerTask {
     String itemUrl = "https://item.jd.com/#{id}.html";
     @Autowired
     RedisTemplate<String, String> redisTemplate;
-    @Autowired
-    MongoTemplate mongoTemplate;
+//    @Autowired
+//    MongoTemplate mongoTemplate;
 
     @PostConstruct
     public void init() {
@@ -76,7 +73,7 @@ public class CrawlerTask {
                     item.setMallCategoryId("4b4419da-522a-4e18-8726-05af49a8d932");
                     item.setUpdateTime(new Date());
                     item.setUrl(url);
-                    mongoTemplate.save(item);
+//                    mongoTemplate.save(item);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
