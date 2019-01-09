@@ -3,31 +3,29 @@ package org.shieldproject.skynet.crawler.provider.api;
 import org.shieldproject.skynet.crawler.provider.bean.Category;
 import org.shieldproject.skynet.crawler.provider.bean.Mall;
 import org.shieldproject.skynet.crawler.provider.bean.MallCategory;
-import org.shieldproject.skynet.crawler.provider.repository.CategoryRepository;
 import org.shoper.commons.core.MD5Util;
 import org.shoper.commons.responseentity.BaseResponse;
 import org.shoper.commons.responseentity.ResponseBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
 public class CrawlerApi {
-    @Autowired
-    CategoryRepository categoryRepository;
+//    @Autowired
+//    CategoryRepository categoryRepository;
 
     @PostMapping("/category")
     public BaseResponse insertCategory(@RequestBody Category category) {
         category.setId(MD5Util.getMD5Code(category.getCode()));
-        categoryRepository.saveCategory(category);
+//        categoryRepository.saveCategory(category);
         return ResponseBuilder.custom().data(category).build();
     }
 
     @PostMapping("/mall")
     public BaseResponse insertMall(@RequestBody Mall mall) {
         mall.setId(MD5Util.getMD5Code(mall.getCode()));
-        categoryRepository.saveMall(mall);
+//        categoryRepository.saveMall(mall);
         return ResponseBuilder.custom().data(mall).build();
     }
 
@@ -35,12 +33,13 @@ public class CrawlerApi {
     public BaseResponse insertMallCategory(@RequestBody MallCategory mallCategory) {
         mallCategory.setId(UUID.randomUUID().toString());
         mallCategory.setCreateTime(System.currentTimeMillis());
-        categoryRepository.saveMallCategory(mallCategory);
+//        categoryRepository.saveMallCategory(mallCategory);
         return ResponseBuilder.custom().data(mallCategory).build();
     }
 
     @GetMapping("/category/{id}")
     public BaseResponse findCategory(@PathVariable String id) {
-        return ResponseBuilder.custom().data(categoryRepository.findCategoryById(id)).build();
+//        Object data = categoryRepository.findCategoryById(id);
+        return ResponseBuilder.custom().data(null).build();
     }
 }
