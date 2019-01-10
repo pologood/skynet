@@ -1,19 +1,22 @@
 <html>
-<body><h1>OAuth Approval</h1>
-<p>Do you authorize 's6BhdRkqt3' to access your protected resources?</p>
-<form id='confirmationForm' name='confirmationForm' action='/oauth/authorize' method='post'><input
-        name='user_oauth_approval' value='true' type='hidden'/><input type='hidden' name='_csrf'
-                                                                      value='6d2f22a7-6a20-4905-bd21-55a69ca99f2e'/>
-    <ul>
-        <li>
-            <div class='form-group'>scope.pc: <input type='radio' name='scope.pc' value='true'>Approve</input> <input
-                    type='radio' name='scope.pc' value='false' checked>Deny</input></div>
-        </li>
-        <li>
-            <div class='form-group'>scope.mobile: <input type='radio' name='scope.mobile' value='true'>Approve</input>
-                <input type='radio' name='scope.mobile' value='false' checked>Deny</input></div>
-        </li>
-    </ul>
-    <label><input name='authorize' value='Authorize' type='submit'/></label></form>
-</body>
+<body>
+    <h1>OAuth Approval</h1>
+    <p>Do you authorize 's6BhdRkqt3' to access your protected resources?</p>
+    <form id='confirmationForm' name='confirmationForm' action='/oauth/authorize' method='post'><input
+            name='user_oauth_approval' value='true' type='hidden'/><input type='hidden' name='_csrf'
+                                                                          value='6d2f22a7-6a20-4905-bd21-55a69ca99f2e'/>
+        <ul>
+            <li>
+                <div class='form-group'>scope.pc:
+                    <input type='radio' name='scope.pc' value='true'>Approve</input>
+                    <input type='radio' name='scope.pc' value='false' checked>Deny</input></div>
+            </li>
+            <li>
+                <div class='form-group'>scope.mobile:
+                    <input type='radio' name='scope.mobile' value='true'>Approve</input>
+                    <input type='radio' name='scope.mobile' value='false' checked>Deny</input></div>
+            </li>
+        </ul>
+        <label><input name='authorize' value='Authorize' type='submit'/></label></form>
+    </body>
 </html>
