@@ -52,6 +52,7 @@ public class CrawlerTask {
 
     ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
+
     private void fetchItemDetail() {
         int count = 0;
         for (; ; count++) {
@@ -91,7 +92,7 @@ public class CrawlerTask {
             fetchItemsSku(id);
 
         }
-        redisTemplate.opsForList().leftPush("JS_ITEM_SKU", "over");
+        redisTemplate.opsForList().leftPush("JD_ITEM_SKU", "over");
         System.out.println("列表页商品数量--" + count);
     }
 

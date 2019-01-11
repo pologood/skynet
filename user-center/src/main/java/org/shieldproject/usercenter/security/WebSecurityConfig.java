@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**", "/captcha/**", "/user/login", "/css/**", "/images/**", "/js/**", "/laydate/**", "/layer/**", "/token/**").permitAll()
+                .antMatchers("/captcha/**", "/user/login", "/css/**", "/images/**", "/js/**", "/laydate/**", "/layer/**", "/token/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -62,7 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder(4);
     }
 
