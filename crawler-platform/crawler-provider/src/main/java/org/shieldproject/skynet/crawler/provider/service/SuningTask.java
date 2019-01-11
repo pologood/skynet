@@ -1,6 +1,7 @@
 package org.shieldproject.skynet.crawler.provider.service;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.apache.logging.log4j.util.SystemPropertiesPropertySource;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,10 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class SuningTask {
     // 苏宁数码分类
     private static final String SUNING_DIGITAL_URL = "https://list.suning.com/#20089";
-    private static final String SUNING_PRODUCT_URL = "//product.suning.com/#{suffix}/#{prefix}.html";
+    private static final String SUNING_PRODUCT_URL = "https://product.suning.com/#{suffix}/#{prefix}.html";
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -101,10 +99,12 @@ public class SuningTask {
 
     }
 
+    List<String> itemIdList = new ArrayList<>();
+
     // 抓取商品ID
     public void catchItems() {
         try {
-            String categoryCode = SUNING_DIGITAL_URL.substring(SUNING_DIGITAL_URL.indexOf("#"));
+            String categoryCode = SUNING_DIGITAL_URL.substring(SUNING_DIGITAL_URL.indexOf("#")+1);
 
             HttpClient build = HttpClientBuilder.custom().retry(3).url(SUNING_DIGITAL_URL).charset("utf-8").timeout(1).timeoutUnit(TimeUnit.MINUTES).build();
             String html = build.doGet();
@@ -115,12 +115,23 @@ public class SuningTask {
             for (Element item : items) {
                 // e.g. 600384083|||||0070156382
                 String skuid = item.attr("datasku");
-                redisTemplate.opsForList().leftPush("SN_ITEM_ID", skuid);
+                itemIdList.add(skuid);
+//                redisTemplate.opsForList().leftPush("SN_ITEM_ID", skuid);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        redisTemplate.opsForList().leftPush("SN_ITEM_ID", "over");
+//        redisTemplate.opsForList().leftPush("SN_ITEM_ID", "over");
+    }
+
+    public List<String> getItemIdList() {
+        return itemIdList;
+    }
+
+    public static void main(String[] args) {
+        SuningTask suningTask = new SuningTask();
+        suningTask.catchItems();
+        suningTask.getItemIdList().forEach(p -> suningTask.fetchItemSku(p));
     }
 }
