@@ -65,6 +65,8 @@ public class SuningTask {
             Element scriptElement = parse.getElementsByTag("script").first();
             if (Objects.nonNull(scriptElement)) {
                 String replace = scriptElement.html();
+//                replace = replace.replace("document.location.hostname", "0");
+                replace = replace.substring(70).replaceAll("\\+document\\.location\\.hostname","").replaceAll("window\\.screen\\.width","1200");
                 replace += "\nsn.clusterMap;";
                 ScriptEngineManager manager = new ScriptEngineManager();
                 ScriptEngine engine = manager.getEngineByExtension("js");
@@ -74,7 +76,8 @@ public class SuningTask {
                 Collection<Object> values = eval.values();
 
                 for (Object p : values) {
-                    ScriptObjectMirror v = (ScriptObjectMirror) p;
+//                    ScriptObjectMirror v = (ScriptObjectMirror) p;
+                    Map<String, Object> v = (Map<String, Object>) p;
                     String skuId = null;
                     List<Map<String, Object>> skuList = (List<Map<String, Object>>) v.get("itemCuPartNumber");
 
