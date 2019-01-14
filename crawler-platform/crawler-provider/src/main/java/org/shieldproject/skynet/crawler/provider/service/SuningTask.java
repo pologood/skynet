@@ -76,22 +76,21 @@ public class SuningTask {
                 Collection<Object> values = eval.values();
 
                 for (Object p : values) {
-//                    ScriptObjectMirror v = (ScriptObjectMirror) p;
-                    Map<String, Object> v = (Map<String, Object>) p;
+                    ScriptObjectMirror v = (ScriptObjectMirror) p;
                     String skuId = null;
-                    List<Map<String, Object>> skuList = (List<Map<String, Object>>) v.get("itemCuPartNumber");
+                    ScriptObjectMirror v1 = (ScriptObjectMirror) v.get("itemCuPartNumber");
+                    Set<Map.Entry<String, Object>> v3 = v1.entrySet();
 
-                    for (Map<String, Object> map : skuList) {
-                        Object skuId1 = map.get("partNumber");
-                        if (skuId1 instanceof Double)
-                            skuId = new BigDecimal((Double) skuId1).toPlainString();
-                        else if (skuId1 instanceof Integer)
-                            skuId = new BigDecimal((Integer) skuId1).toPlainString();
-                        else if (skuId1 instanceof Long)
-                            skuId = new BigDecimal((Long) skuId1).toPlainString();
+                    for (Map.Entry<String, Object> map : v3) {
+                        Map<String, Object> v4 = (Map<String, Object>) map.getValue();
 
-                        System.out.println(skuId);
-//                        redisTemplate.opsForList().leftPush("SN_ITEM_SKU", skuId);
+                        for (Map.Entry<String, Object> m : v4.entrySet()) {
+                            if (m.getKey().equals("partNumber")) {
+                                skuId = new BigDecimal(m.getValue().toString()).toPlainString();
+                                redisTemplate.opsForList().leftPush("SN_ITEM_SKU", skuId);
+                            }
+                        }
+
                     }
                 }
             } else
