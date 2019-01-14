@@ -156,6 +156,7 @@ public class SuningTask {
                     Item item = new Item();
                     item.setId("SN_" + id);
                     item.setTitle(title);
+                    // TODO 电商平台类型ID需要更新，目前用的是京东的
                     item.setMallCategoryId("4b4419da-522a-4e18-8726-05af49a8d932");
                     item.setUpdateTime(new Date());
                     item.setUrl(url);
