@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.shieldproject.skynet.crawler.provider.bean.Item;
 import org.shoper.commons.http.HttpClient;
 import org.shoper.commons.http.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -36,8 +39,10 @@ public class SuningTask {
     public void init() {
         // 抓商品ID
         new Thread(() -> catchItems()).start();
-        // 抓商品详情
+        // 抓商品SKU
         new Thread(() -> fetchItemSku()).start();
+        // 抓商品明细
+        new Thread(() -> fetchItemDetail()).start();
     }
 
     private void fetchItemSku() {
@@ -59,7 +64,7 @@ public class SuningTask {
         String url = SUNING_PRODUCT_URL.replace("#{suffix}", var1[1]).replace("#{prefix}", var1[0]);
 
         try {
-            HttpClient build = HttpClientBuilder.custom().retry(3).url(url).timeoutUnit(TimeUnit.MICROSECONDS).timeout(1).charset("utf-8").build();
+            HttpClient build = HttpClientBuilder.custom().retry(3).url(url).timeoutUnit(TimeUnit.SECONDS).timeout(5).charset("utf-8").build();
             String data = build.doGet();
             Document parse = Jsoup.parse(data);
             Element scriptElement = parse.getElementsByTag("script").first();
@@ -87,7 +92,7 @@ public class SuningTask {
                         for (Map.Entry<String, Object> m : v4.entrySet()) {
                             if (m.getKey().equals("partNumber")) {
                                 skuId = new BigDecimal(m.getValue().toString()).toPlainString();
-                                redisTemplate.opsForList().leftPush("SN_ITEM_SKU", skuId);
+                                redisTemplate.opsForList().leftPush("SN_ITEM_SKU", skuId+"|||||"+var1[1]);
                             }
                         }
 
@@ -118,17 +123,49 @@ public class SuningTask {
                 // e.g. 600384083|||||0070156382
                 String skuid = item.attr("datasku");
                 itemIdList.add(skuid);
-//                redisTemplate.opsForList().leftPush("SN_ITEM_ID", skuid);
+                redisTemplate.opsForList().leftPush("SN_ITEM_ID", skuid);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-//        redisTemplate.opsForList().leftPush("SN_ITEM_ID", "over");
+        redisTemplate.opsForList().leftPush("SN_ITEM_ID", "over");
     }
 
     public List<String> getItemIdList() {
         return itemIdList;
+    }
+
+    ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+    private void fetchItemDetail() {
+        int count = 0;
+        for (; ; count++) {
+            String id = redisTemplate.opsForList().rightPop("SN_ITEM_SKU", 5, TimeUnit.SECONDS);
+            if (id == null) continue;
+            if (id.equals("over")) break;
+            executorService.submit(() -> {
+                try {
+                    String[] var1 = id.split("\\|\\|\\|\\|\\|");
+                    String url = SUNING_PRODUCT_URL.replace("#{suffix}", var1[1]).replace("#{prefix}", var1[0]);
+                    HttpClient build = HttpClientBuilder.custom().retry(3).url(url).timeoutUnit(TimeUnit.MINUTES).timeout(1).charset("utf-8").build();
+                    String data = build.doGet();
+                    Document parse = Jsoup.parse(data);
+                    Element element = parse.getElementById("itemDisplayName");
+                    String title = element.text();
+                    Item item = new Item();
+                    item.setId("SN_" + id);
+                    item.setTitle(title);
+                    item.setMallCategoryId("4b4419da-522a-4e18-8726-05af49a8d932");
+                    item.setUpdateTime(new Date());
+                    item.setUrl(url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+        }
+        System.out.println("实际商品数：" + count);
     }
 
     public static void main(String[] args) {
