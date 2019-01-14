@@ -151,8 +151,11 @@ public class SuningTask {
                     HttpClient build = HttpClientBuilder.custom().retry(3).url(url).timeoutUnit(TimeUnit.MINUTES).timeout(1).charset("utf-8").build();
                     String data = build.doGet();
                     Document parse = Jsoup.parse(data);
-                    Element element = parse.getElementById("itemDisplayName");
-                    String title = element.text();
+                    Element titleElement = parse.getElementById("itemDisplayName");
+                    String title = titleElement.text();
+                    Elements priceElements = parse.getElementsByClass("mainprice");
+                    String price = priceElements.text();
+                    price = price.substring(0, price.length()-1);
                     Item item = new Item();
                     item.setId("SN_" + id);
                     item.setTitle(title);
@@ -160,6 +163,7 @@ public class SuningTask {
                     item.setMallCategoryId("4b4419da-522a-4e18-8726-05af49a8d932");
                     item.setUpdateTime(new Date());
                     item.setUrl(url);
+                    item.setPrice(new BigDecimal(price));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
